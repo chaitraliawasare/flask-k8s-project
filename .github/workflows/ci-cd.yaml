@@ -23,16 +23,16 @@ jobs:
         run: |
           docker push ${{secrets.DOCKER_USERNAME}}/flask-app:latest
 
-  deploy-to-k8s:
-      needs: build
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v2
-        - name: Set up kubectl
-          uses: azure/setup-kubectl@v1
-          with:
-            version: 'latest'
-        - name: Deploy to Kubernetes
-          run: |
-            kubectl apply -f k8s/flask-app/flask-deployment.yaml
+#   #deploy-to-k8s:
+#       needs: build
+#       runs-on: ubuntu-latest
+#       steps:
+#         - name: Checkout code
+#           uses: actions/checkout@v2
+#         - name: Set up kubectl
+#           uses: azure/setup-kubectl@v1
+#           with:
+#             version: 'latest'
+#         - name: Deploy to Kubernetes
+#           run: |
+#             kubectl apply -f k8s/flask-app/flask-deployment.yaml
