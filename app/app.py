@@ -18,6 +18,10 @@ REQUEST_LATENCY = Histogram(
 )
 
 @app.route("/")
+
+def home():
+    return f"Flas App Version: {APP_VERSIO}"
+
 def hello():
     db_status = check_db_connection()
     hostname = socket.gethostname()
