@@ -1,15 +1,14 @@
-# Flask Microservice Deployment on Kubernetes
+# 🚀 Flask Microservice Deployment on Kubernetes
 
-## Overview
+## 📌 Overview
 
-This project demonstrates how to deploy a containerized **Flask web application with a PostgreSQL database** on **Kubernetes**.
-The application was originally containerized using Docker and later migrated to Kubernetes for orchestration, scalability, and service discovery.
+This project demonstrates how to deploy a **containerized Flask application with a PostgreSQL database** on **Kubernetes**.
 
-The deployment uses **Minikube** for running a local Kubernetes cluster and exposes the application using a **NodePort Service**.
+The application was first containerized using Docker and then deployed to a Kubernetes cluster using **Minikube**. The project demonstrates service discovery, container orchestration, and external service exposure using Kubernetes Services.
 
 ---
 
-## Architecture
+## 🏗 Architecture
 
 ```
 User
@@ -23,30 +22,50 @@ Database Service (database)
 PostgreSQL Pod
 ```
 
-### Kubernetes Components Used
+---
 
-| Component           | Purpose                              |
-| ------------------- | ------------------------------------ |
-| Deployment          | Manages Flask application pods       |
-| Pods                | Run containerized Flask application  |
-| Service (NodePort)  | Exposes Flask app externally         |
-| Service (ClusterIP) | Internal communication with database |
-| Kubernetes DNS      | Service discovery between pods       |
+## ⚙️ Tech Stack
+
+* Python Flask
+* PostgreSQL
+* Docker
+* Kubernetes
+* Minikube
+* kubectl
 
 ---
 
-## Tech Stack
+## 📦 Docker Image
 
-* **Python Flask**
-* **PostgreSQL**
-* **Docker**
-* **Kubernetes**
-* **Minikube**
-* **kubectl**
+Docker image available on Docker Hub.
+
+Pull the image:
+
+```
+docker pull <dockerhub-username>/flask-app:latest
+```
+
+Example:
+
+```
+docker pull chaitrali/flask-app:latest
+```
+
+Run locally:
+
+```
+docker run -p 5001:5001 chaitrali/flask-app:latest
+```
+
+Application will be available at:
+
+```
+http://localhost:5001
+```
 
 ---
 
-## Project Structure
+## 📂 Project Structure
 
 ```
 flask-kubernetes-project
@@ -65,59 +84,15 @@ flask-kubernetes-project
 
 ---
 
-## Prerequisites
+## 🚀 Deploy on Kubernetes
 
-Before running this project, ensure you have the following installed:
-
-* Docker
-* Kubernetes CLI (`kubectl`)
-* Minikube
-* Python 3.x
-
-Verify installation:
-
-```
-kubectl version --client
-minikube version
-docker --version
-```
-
----
-## Pull the Docker Image
-
-The Flask application image is available on Docker Hub and can be pulled using the following command:
-
-```
-docker pull <dockerhub-username>/flask-app:latest
-```
-
-Example:
-
-```
-docker pull chaitrali/flask-app:latest
-```
-
-After pulling the image, you can run the container locally using:
-
-```
-docker run -p 5001:5001 chaitrali/flask-app:latest
-```
-
-This will start the Flask application and expose it on:
-
-```
-http://localhost:5001
-```
-
-## Start Kubernetes Cluster
-
-Start the Minikube cluster:
+### Start Kubernetes Cluster
 
 ```
 minikube start
 ```
 
-Verify the cluster:
+Verify cluster:
 
 ```
 kubectl get nodes
@@ -125,30 +100,13 @@ kubectl get nodes
 
 ---
 
-## Build Docker Image
-
-Build the Flask application container:
-
-```
-docker build -t flask-app .
-```
-
-For Minikube local development:
-
-```
-eval $(minikube docker-env)
-docker build -t flask-app .
-```
-
----
-
-## Deploy Application to Kubernetes
-
 ### Deploy Flask Application
 
 ```
 kubectl apply -f k8s/flask-deployment.yaml
 ```
+
+---
 
 ### Create Flask Service
 
@@ -156,11 +114,15 @@ kubectl apply -f k8s/flask-deployment.yaml
 kubectl apply -f k8s/flask-service.yaml
 ```
 
+---
+
 ### Deploy PostgreSQL
 
 ```
 kubectl apply -f k8s/postgres-deployment.yaml
 ```
+
+---
 
 ### Create PostgreSQL Service
 
@@ -170,7 +132,7 @@ kubectl apply -f k8s/postgres-service.yaml
 
 ---
 
-## Verify Deployment
+## 🔍 Verify Deployment
 
 Check running pods:
 
@@ -192,15 +154,15 @@ kubectl get deployments
 
 ---
 
-## Access the Application
+## 🌐 Access the Application
 
-Use the following command to access the application:
+Run:
 
 ```
 minikube service flask-service
 ```
 
-Alternatively:
+Or manually:
 
 ```
 minikube ip
@@ -214,27 +176,27 @@ http://<minikube-ip>:<nodeport>
 
 ---
 
-## Debugging Commands
+## 🛠 Debugging Commands
 
-Check pod logs:
+View logs:
 
 ```
 kubectl logs <pod-name>
 ```
 
-Describe services:
+Describe service:
 
 ```
 kubectl describe svc flask-service
 ```
 
-Execute into a pod:
+Execute inside container:
 
 ```
 kubectl exec -it <pod-name> -- sh
 ```
 
-Port forwarding:
+Port forward:
 
 ```
 kubectl port-forward deployment/flask-app-deployment 5001:5001
@@ -242,43 +204,40 @@ kubectl port-forward deployment/flask-app-deployment 5001:5001
 
 ---
 
-## Troubleshooting Issues Encountered
+## ⚠️ Troubleshooting
 
-During deployment several common Kubernetes issues were encountered and resolved:
+Common issues solved during this project:
 
-| Issue                        | Solution                                           |
-| ---------------------------- | -------------------------------------------------- |
-| ImagePullBackOff             | Built image locally inside Minikube environment    |
-| Service not reachable        | Corrected service targetPort to match Flask port   |
-| Database hostname resolution | Created Kubernetes service `database`              |
-| External access issue        | Used NodePort service and Minikube service command |
-
----
-
-## Future Improvements
-
-* Implement **Persistent Volumes** for PostgreSQL
-* Use **ConfigMaps** for environment configuration
-* Use **Secrets** for database credentials
-* Implement **Ingress Controller** instead of NodePort
-* Add **Prometheus + Grafana monitoring**
+| Issue                       | Solution                                       |
+| --------------------------- | ---------------------------------------------- |
+| ImagePullBackOff            | Built image inside Minikube Docker environment |
+| Service not reachable       | Fixed service targetPort                       |
+| Database hostname not found | Created Kubernetes service `database`          |
+| External access issue       | Used NodePort + Minikube service command       |
 
 ---
 
-## Learning Outcomes
+## 📚 Key Kubernetes Concepts Used
 
-Through this project the following Kubernetes concepts were implemented:
-
-* Deployments and Pods
-* Kubernetes Services
-* Service discovery using DNS
-* Exposing applications using NodePort
-* Debugging Kubernetes networking issues
-* Connecting microservices within a cluster
+* Deployments
+* Pods
+* Services (ClusterIP & NodePort)
+* Service Discovery using DNS
+* Container Networking
+* Debugging with kubectl
 
 ---
 
-## Author
+## 🚧 Future Improvements
+
+* Persistent Volumes for PostgreSQL
+* ConfigMaps for environment variables
+* Secrets for database credentials
+* Ingress controller for HTTP routing
+* Monitoring using Prometheus and Grafana
+
+---
+
+## 👩‍💻 Author
 
 DevOps Engineer exploring Kubernetes, container orchestration, and cloud-native architectures.
-
