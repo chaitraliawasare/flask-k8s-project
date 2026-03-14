@@ -83,6 +83,31 @@ docker --version
 ```
 
 ---
+## Pull the Docker Image
+
+The Flask application image is available on Docker Hub and can be pulled using the following command:
+
+```
+docker pull <dockerhub-username>/flask-app:latest
+```
+
+Example:
+
+```
+docker pull chaitrali/flask-app:latest
+```
+
+After pulling the image, you can run the container locally using:
+
+```
+docker run -p 5001:5001 chaitrali/flask-app:latest
+```
+
+This will start the Flask application and expose it on:
+
+```
+http://localhost:5001
+```
 
 ## Start Kubernetes Cluster
 
