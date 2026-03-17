@@ -98,7 +98,13 @@ kubectl get services
 * Real-world DevOps workflow and architecture
 
 ---
+## Results
 
+- Successfully deployed multi-container application on Kubernetes
+- Verified service communication between application and database
+- Monitored system metrics using Prometheus and Grafana
+- Achieved reliable and reproducible deployments
+  
 ## 👩‍💻 Author
 
 **Chaitrali Awasare**
