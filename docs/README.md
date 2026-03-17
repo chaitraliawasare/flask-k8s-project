@@ -10,10 +10,9 @@ The system is designed with a focus on **scalability, reliability, and observabi
 
 ## 🏗️ Architecture
 
-Client → Nginx → Flask Application → PostgreSQL
-                                                    ↓
-                                                    Prometheus → Grafana
-
+Client → Nginx (Reverse Proxy) → Flask App (Pods) → PostgreSQL  
+                                  ↓  
+                        Prometheus → Grafana
 ---
 
 ## ⚙️ Tech Stack
