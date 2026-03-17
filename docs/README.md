@@ -72,7 +72,11 @@ kubectl get services
 ## 📸 Screenshots (To be added)
 
 * Application UI
+<img width="669" height="455" alt="image" src="https://github.com/user-attachments/assets/7c418904-19d9-4ca5-bf09-22ee290a5304" />
+
 * Kubernetes pods running
+  <img width="1293" height="1070" alt="image" src="https://github.com/user-attachments/assets/866857e9-0c6f-40bf-8c20-88ab8c365808" />
+
 * Grafana dashboards
 * Monitoring metrics
 
