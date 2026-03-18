@@ -90,13 +90,6 @@ kubectl get services
 kubectl get ingress
 ```
 
-### 5. Monitor Application
-
-```bash
-kubectl port-forward svc/prometheus 9090
-kubectl port-forward svc/grafana 3000
-```
-
 ---
 
 ## 🧪 Health Checks
@@ -117,7 +110,7 @@ kubectl port-forward svc/grafana 3000
 
 ## 📸 Screenshots
 
-(Add your screenshots here)
+##In Progress
 
 ---
 
