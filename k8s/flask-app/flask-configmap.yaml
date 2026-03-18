@@ -5,6 +5,7 @@ metadata:
 data:
   DATABASE_HOST: "database"
   DATABASE_PORT: "5432"
-  DATABASE_NAME: "devopsdb"
-  DATABASE_USER: "admin"
-  DATABASE_PASSWORD: "password" 
+  #DATABASE_NAME: "devopsdb"
+  #DATABASE_USER: "admin"
+  #DATABASE_PASSWORD: "password" 
+  APP_VERSION: "latest"

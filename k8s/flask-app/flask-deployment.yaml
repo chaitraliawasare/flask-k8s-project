@@ -15,6 +15,7 @@ spec:
       containers:
       - name: flask-app
         image: chaitrali20/flask-app:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 5001
 
@@ -31,16 +32,21 @@ spec:
               key: DATABASE_PORT
         - name: DATABASE_NAME
           valueFrom:
-            configMapKeyRef:
-              name: flask-config
-              key: DATABASE_NAME
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_DB
         - name: DATABASE_USER
           valueFrom:
-            configMapKeyRef:
-              name: flask-config
-              key: DATABASE_USER
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_USER
         - name: DATABASE_PASSWORD
           valueFrom:
-            configMapKeyRef:
-              name: flask-config
-              key: DATABASE_PASSWORD 
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_PASSWORD
+        # - name: DATABASE_PASSWORD
+        #   valueFrom:
+        #     configMapKeyRef:
+        #       name: flask-config
+        #       key: APP_VERSION

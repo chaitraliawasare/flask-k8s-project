@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask
 
 import psycopg2
@@ -19,8 +21,9 @@ REQUEST_LATENCY = Histogram(
 
 @app.route("/")
 
-def home():
-    return f"Flas App Version: {APP_VERSIO}"
+# def home():
+#     version = os.getenv("APP_VERSION", "unknown")
+#     #return f"Flask App Version: {version}"
 
 def hello():
     db_status = check_db_connection()
@@ -30,11 +33,11 @@ def hello():
 def check_db_connection():
     try:
         conn = psycopg2.connect(
-            host="database",
-            database="devopsdb",
-            user="admin",
-            password="password",
-            port=5432
+            host=os.getenv("DATABASE_HOST"),
+            database=os.getenv("DATABASE_NAME"),
+            user=os.getenv("DATABASE_USER"),
+            password=os.getenv("DATABASE_PASSWORD"),
+            port=os.getenv("DATABASE_PORT")
         )
         conn.close()
         return "Database connection successful"

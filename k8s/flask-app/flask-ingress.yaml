@@ -4,11 +4,12 @@ metadata:
   name: flask-ingress
 spec:
   rules:
-  - host: flask-app.local
+  - host: flask.local
     http:
-      paths: /
-      pathType: Prefix
-      backend:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
           service:
             name: flask-service
             port:
