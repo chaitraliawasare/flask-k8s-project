@@ -20,15 +20,13 @@ REQUEST_LATENCY = Histogram(
 )
 
 @app.route("/")
-
-# def home():
-#     version = os.getenv("APP_VERSION", "unknown")
-#     #return f"Flask App Version: {version}"
-
 def hello():
-    db_status = check_db_connection()
-    hostname = socket.gethostname()
-    return f"{db_status} from {hostname}"
+    REQUEST_COUNT.labels(method="GET", endpoint="/").inc()
+
+    with REQUEST_LATENCY.time():
+        db_status = check_db_connection()
+        hostname = socket.gethostname()
+        return f"{db_status} from {hostname}"
      
 def check_db_connection():
     try:
@@ -44,16 +42,19 @@ def check_db_connection():
     except Exception as e:
         return f"Database connection failed: {e}"
 
-def hello_world():
-     REQUEST_COUNT.labels(method="GET", endpoint="/").inc()
+# def hello_world():
+#      REQUEST_COUNT.labels(method="GET", endpoint="/").inc()
 
-     with REQUEST_LATENCY.time():
-         hostname = socket.gethostname()
-         return f"{check_db_connection()} from {hostname}"
+#      with REQUEST_LATENCY.time():
+#          hostname = socket.gethostname()
+#          return f"{check_db_connection()} from {hostname}"
 @app.route("/metrics")
 def metrics():
     return generate_latest(), 200, {"Content-Type": "text/plain"}
-        
+
+@app.route("/health")
+def health():
+    return {"status": "healthy"}, 200
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001)
