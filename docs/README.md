@@ -2,39 +2,63 @@
 
 ## 📌 Overview
 
-This project demonstrates a **cloud-native DevOps architecture** by deploying a containerized Flask application with PostgreSQL using Docker and Kubernetes.
+This project demonstrates a **production-ready cloud-native DevOps architecture** by deploying a containerized Flask application with PostgreSQL using Docker and Kubernetes.
 
-The system is designed with a focus on **scalability, reliability, and observability**, following modern DevOps practices.
+The system is designed with a focus on **scalability, reliability, observability, and automation**, incorporating real-world DevOps best practices such as **health checks, autoscaling, and CI/CD pipelines**.
 
 ---
 
 ## 🏗️ Architecture
 
-Client → Nginx (Reverse Proxy) → Flask App (Pods) → PostgreSQL  
-                                  ↓  
-                        Prometheus → Grafana
+Client → Nginx (Ingress / Reverse Proxy) → Flask App (Kubernetes Pods) → PostgreSQL  
+                      ↓  
+                  Monitoring (Prometheus → Grafana)
+
 ---
 
 ## ⚙️ Tech Stack
 
-* 🐳 Docker (Containerization)
-* ☸️ Kubernetes (Container Orchestration)
-* 🌐 Nginx (Reverse Proxy)
-* 🐘 PostgreSQL (Database)
-* 📊 Prometheus (Monitoring)
-* 📈 Grafana (Visualization)
-* 🐍 Flask (Backend Application)
+* 🐳 Docker – Containerization  
+* ☸️ Kubernetes – Container Orchestration  
+* 🌐 Nginx – Reverse Proxy / Ingress  
+* 🐘 PostgreSQL – Database  
+* 📊 Prometheus – Metrics Collection  
+* 📈 Grafana – Visualization  
+* 🐍 Flask – Backend Application  
+* 🔄 GitHub Actions – CI/CD Pipeline  
 
 ---
 
-## 🚀 Features
+## 🚀 Key Features
 
-* Containerized microservices using Docker
-* Kubernetes-based deployment with scaling support
-* Nginx reverse proxy for traffic routing
-* PostgreSQL integration with Flask
-* Monitoring using Prometheus and Grafana
-* Modular and production-like architecture
+### 🔹 Application & Infrastructure
+* Containerized microservices using Docker  
+* Kubernetes-based deployment with rolling updates  
+* Nginx-based traffic routing using Ingress  
+
+### 🔹 Reliability & Health Management
+* Implemented **Liveness and Readiness Probes**  
+* Automatic container restart on failure  
+* Zero-downtime deployments using rolling updates  
+
+### 🔹 Scalability
+* Configured **Horizontal Pod Autoscaler (HPA)** based on CPU utilization  
+* Dynamic scaling based on load  
+
+### 🔹 Configuration Management
+* Used **ConfigMaps and Secrets** for environment configuration  
+* Secure handling of database credentials  
+
+### 🔹 Observability
+* Integrated **Prometheus** for metrics scraping  
+* Visualized metrics using **Grafana dashboards**  
+* Exposed custom application metrics (`/metrics` endpoint)  
+
+### 🔹 CI/CD (In Progress)
+* Implemented **GitHub Actions pipeline**:
+  - Build Docker image  
+  - Push to DockerHub  
+* Designed deployment stage (requires cloud cluster for full automation)  
 
 ---
 
@@ -44,70 +68,84 @@ Client → Nginx (Reverse Proxy) → Flask App (Pods) → PostgreSQL
 
 ```bash
 git clone https://github.com/chaitraliawasare/flask-k8s-project.git
-cd flask-k8s-project
-```
-
-### 2. Build Docker images
-
-```bash
-docker build -t flask-app .
-```
-
-### 3. Deploy to Kubernetes
-
-```bash
+cd flask-k8s-project 
+2. Build Docker image
+docker build -t chaitrali20/flask-app:latest .
+3. Deploy to Kubernetes
 kubectl apply -f k8s/
-```
-
-### 4. Verify deployment
-
-```bash
+4. Verify deployment
 kubectl get pods
 kubectl get services
-```
+kubectl get ingress
+4. Verify deployment
+kubectl get pods
+kubectl get services
+kubectl get ingress
+5. Monitor Application
+kubectl port-forward svc/prometheus 9090
+kubectl port-forward svc/grafana 3000
+🧪 Health Checks
 
----
+/health endpoint implemented for Kubernetes probes
 
-## 📸 Screenshots (To be added)
+Liveness Probe → Restarts unhealthy containers
 
-* Application UI
+Readiness Probe → Controls traffic routing
+
+📈 Autoscaling
+
+Configured HPA using CPU metrics
+
+Metrics Server integrated for resource monitoring
+
+Application scales automatically under load
+
+📸 Screenshots
+Application UI
 <img width="669" height="455" alt="image" src="https://github.com/user-attachments/assets/7c418904-19d9-4ca5-bf09-22ee290a5304" />
+Kubernetes Pods
+<img width="1293" height="1070" alt="image" src="https://github.com/user-attachments/assets/866857e9-0c6f-40bf-8c20-88ab8c365808" />
+Grafana Dashboards
+<!-- Add Grafana screenshots here -->
+🔮 Future Enhancements
 
-* Kubernetes pods running
-  <img width="1293" height="1070" alt="image" src="https://github.com/user-attachments/assets/866857e9-0c6f-40bf-8c20-88ab8c365808" />
+Deploy to AWS EKS using Terraform
 
-* Grafana dashboards
-* Monitoring metrics
+Implement full CI/CD deployment pipeline
 
----
+Add centralized logging (ELK / EFK stack)
 
-## 🔮 Future Enhancements
+Implement TLS (HTTPS) with Ingress
 
-* Add CI/CD pipeline using GitHub Actions
-* Implement auto-scaling (HPA)
-* Add logging with ELK stack
-* Improve security with DevSecOps practices
+Add canary/blue-green deployments
 
----
+📌 Key Learnings
 
-## 📌 Key Learnings
+Kubernetes architecture and deployment strategies
 
-* Kubernetes deployments and service networking
-* Container orchestration and scaling concepts
-* Monitoring and observability setup
-* Real-world DevOps workflow and architecture
+Health checks (Liveness & Readiness probes)
 
----
-## Results
+Autoscaling using HPA and metrics-server
 
-- Successfully deployed multi-container application on Kubernetes
-- Verified service communication between application and database
-- Monitored system metrics using Prometheus and Grafana
-- Achieved reliable and reproducible deployments
-  
-## 👩‍💻 Author
+Monitoring and observability using Prometheus & Grafana
 
-**Chaitrali Awasare**
+CI/CD pipeline design with GitHub Actions
+
+Debugging real-world production issues
+
+📊 Results
+
+Successfully deployed multi-container application on Kubernetes
+
+Implemented self-healing and auto-scaling mechanisms
+
+Achieved high availability using multiple replicas
+
+Monitored system performance with real-time metrics
+
+Built a production-like DevOps workflow
+
+👩‍💻 Author
+
+Chaitrali Awasare
 DevOps Engineer
-
----
