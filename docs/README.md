@@ -68,7 +68,8 @@ Client → Nginx (Ingress / Reverse Proxy) → Flask App (Kubernetes Pods) → P
 
 ```bash
 git clone https://github.com/chaitraliawasare/flask-k8s-project.git
-cd flask-k8s-project 
+cd flask-k8s-project```
+
 2. Build Docker image
 docker build -t chaitrali20/flask-app:latest .
 3. Deploy to Kubernetes
