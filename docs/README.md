@@ -151,7 +151,7 @@ kubectl get svc
 
 ### Application UI
 
-![App](apprunning.png)
+![App](/apprunning.png)
 
 ### Kubernetes Pods Running
 
@@ -159,7 +159,7 @@ kubectl get svc
 
 ### AWS Load Balancer (Console)
 
-![LoadBalancer](loadbalancer.png)
+![LoadBalancer](/loadbalancer.png)
 
 ---
 
