@@ -151,11 +151,11 @@ kubectl get svc
 
 ### Application UI
 
-![App](screenshots/app-live.png)
+![App](/Users/chaitraliawasare/Desktop/Screenshot 2026-03-28 at 7.02.55 PM.png)
 
 ### Kubernetes Pods Running
 
-![Pods](screenshots/pods-running.png)
+![Pods](/Users/chaitraliawasare/Desktop/Screenshot 2026-03-28 at 7.02.19 PM.png)
 
 ### Services / LoadBalancer
 
@@ -163,7 +163,7 @@ kubectl get svc
 
 ### AWS Load Balancer (Console)
 
-![LoadBalancer](screenshots/loadbalancer.png)
+![LoadBalancer](/Users/chaitraliawasare/Desktop/Screenshot 2026-03-28 at 7.07.57 PM.png)
 
 ---
 
