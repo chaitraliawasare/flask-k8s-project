@@ -151,7 +151,7 @@ kubectl get svc
 
 ### Application UI
 
-![App](app\ running.png )
+![App](apprunning.png)
 
 ### Kubernetes Pods Running
 
