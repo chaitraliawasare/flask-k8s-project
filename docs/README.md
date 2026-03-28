@@ -151,7 +151,7 @@ kubectl get svc
 
 ### Application UI
 
-![App](flask-k8s-project/app running.png)
+![App](app running.png)
 
 ### Kubernetes Pods Running
 
