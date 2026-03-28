@@ -151,19 +151,15 @@ kubectl get svc
 
 ### Application UI
 
-![App](/Users/chaitraliawasare/Desktop/Screenshot 2026-03-28 at 7.02.55 PM.png)
+![App](flask-k8s-project/app running.png)
 
 ### Kubernetes Pods Running
 
-![Pods](/Users/chaitraliawasare/Desktop/Screenshot 2026-03-28 at 7.02.19 PM.png)
-
-### Services / LoadBalancer
-
-![Service](screenshots/service.png)
+![Pods](flask-k8s-project/kubectl services.png)
 
 ### AWS Load Balancer (Console)
 
-![LoadBalancer](/Users/chaitraliawasare/Desktop/Screenshot 2026-03-28 at 7.07.57 PM.png)
+![LoadBalancer](flask-k8s-project/loadbalancer.png)
 
 ---
 
