@@ -155,11 +155,11 @@ kubectl get svc
 
 ### Kubernetes Pods Running
 
-![Pods](flask-k8s-project/kubectl services.png)
+![Pods](/kubectl services.png)
 
 ### AWS Load Balancer (Console)
 
-![LoadBalancer](flask-k8s-project/loadbalancer.png)
+![LoadBalancer](loadbalancer.png)
 
 ---
 
