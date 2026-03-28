@@ -2,39 +2,54 @@
 
 ## 📌 Overview
 
-This project demonstrates a **production-ready cloud-native DevOps architecture** by deploying a containerized Flask application with PostgreSQL using Docker and Kubernetes.
+This project demonstrates a **cloud-native DevOps architecture** by deploying a containerized Flask application with PostgreSQL using Docker and Kubernetes.
 
-The system is designed with a focus on **scalability, reliability, and observability**, following modern DevOps practices.
+It was implemented in two environments:
+
+- 🖥️ Local setup using Minikube
+- ☁️ Cloud deployment using AWS EKS
+
+The system is designed with a focus on **scalability, reliability, and real-world DevOps practices**.
 
 ---
 
 ## 🏗️ Architecture
 
-Client → Nginx (Reverse Proxy) → Flask App (Pods) → PostgreSQL  
-                                  ↓  
-                        Prometheus → Grafana
+### 🖥️ Local (Minikube)
+
+Client → Nginx → Flask Pods → PostgreSQL
+↓
+Prometheus → Grafana
+
+### ☁️ Cloud (AWS EKS)
+
+User → AWS LoadBalancer → EKS Cluster → Flask Pods → PostgreSQL
+
 ---
 
 ## ⚙️ Tech Stack
 
-* 🐳 Docker (Containerization)
-* ☸️ Kubernetes (Container Orchestration)
-* 🌐 Nginx (Reverse Proxy)
-* 🐘 PostgreSQL (Database)
-* 📊 Prometheus (Monitoring)
-* 📈 Grafana (Visualization)
-* 🐍 Flask (Backend Application)
+- 🐳 Docker (Containerization)
+- ☸️ Kubernetes (Orchestration)
+- 🌐 Nginx (Reverse Proxy)
+- 🐘 PostgreSQL (Database)
+- 📊 Prometheus (Monitoring)
+- 📈 Grafana (Visualization)
+- 🐍 Flask (Backend Application)
+- 📦 Amazon ECR (Container Registry)
+- ☁️ Amazon EKS (Managed Kubernetes)
 
 ---
 
-## 🚀 Key Features
+## 🚀 Features
 
-* Containerized microservices using Docker
-* Kubernetes-based deployment with scaling support
-* Nginx reverse proxy for traffic routing
-* PostgreSQL integration with Flask
-* Monitoring using Prometheus and Grafana
-* Modular and production-like architecture
+- Containerized microservices using Docker
+- Kubernetes-based deployment with scaling support
+- Nginx reverse proxy for traffic routing
+- PostgreSQL integration with Flask
+- Monitoring using Prometheus and Grafana
+- Cloud deployment on AWS EKS
+- Real-world troubleshooting and debugging
 
 ---
 
@@ -47,10 +62,16 @@ git clone https://github.com/chaitraliawasare/flask-k8s-project.git
 cd flask-k8s-project
 ```
 
-### 2. Build Docker images
+### 2. Start Minikube
 
 ```bash
-docker build -t chaitrali20/flask-app:latest .
+minikube start
+```
+
+### 3. Build Docker Image
+
+```bash
+docker build -t flask-app .
 ```
 
 ### 4. Deploy to Kubernetes
@@ -64,49 +85,168 @@ kubectl apply -f k8s/
 ```bash
 kubectl get pods
 kubectl get services
-kubectl get ingress
 ```
 
 ---
 
-## 📸 Screenshots (To be added)
+## ☁️ Cloud Deployment (AWS EKS)
 
-* Application UI
-<img width="669" height="455" alt="image" src="https://github.com/user-attachments/assets/7c418904-19d9-4ca5-bf09-22ee290a5304" />
+### 1. Create EKS Cluster
 
-* Kubernetes pods running
-  <img width="1293" height="1070" alt="image" src="https://github.com/user-attachments/assets/866857e9-0c6f-40bf-8c20-88ab8c365808" />
+```bash
+eksctl create cluster \
+  --name flask-cluster \
+  --region ap-south-1 \
+  --nodes 2 \
+  --node-type t3.medium \
+  --managed
+```
 
-* Grafana dashboards
-* Monitoring metrics
+---
+
+### 2. Push Image to ECR
+
+```bash
+aws ecr create-repository --repository-name flask-app
+
+docker build --platform linux/amd64 -t flask-app .
+
+docker tag flask-app:latest <account-id>.dkr.ecr.ap-south-1.amazonaws.com/flask-app:latest
+
+docker push <account-id>.dkr.ecr.ap-south-1.amazonaws.com/flask-app:latest
+```
+
+---
+
+### 3. Deploy to EKS
+
+```bash
+kubectl apply -f k8s/
+```
+
+---
+
+### 4. Expose Application
+
+```bash
+kubectl expose deployment flask-app \
+  --type=LoadBalancer \
+  --port=80 \
+  --target-port=5000
+```
+
+---
+
+### 5. Verify Deployment
+
+```bash
+kubectl get nodes
+kubectl get pods
+kubectl get svc
+```
+
+---
+
+## 📸 Screenshots
+
+### Application UI
+
+![App](screenshots/app-live.png)
+
+### Kubernetes Pods Running
+
+![Pods](screenshots/pods-running.png)
+
+### Services / LoadBalancer
+
+![Service](screenshots/service.png)
+
+### AWS Load Balancer (Console)
+
+![LoadBalancer](screenshots/loadbalancer.png)
+
+---
+
+## 🐞 Real-World Issues Faced & Fixes
+
+### ❌ CloudFormation Stack Already Exists
+
+- Cause: Incomplete cluster deletion
+- Fix: Delete nodegroup stack → then cluster stack
+
+---
+
+### ❌ ImagePullBackOff (ECR)
+
+- Cause: Missing IAM permissions
+- Fix: Attach policy:
+
+```bash
+aws iam attach-role-policy \
+  --role-name <node-role> \
+  --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+```
+
+---
+
+### ❌ Architecture Mismatch (ARM vs AMD)
+
+- Cause: Built on M1/M2 Mac
+- Fix:
+
+```bash
+docker build --platform linux/amd64
+```
+
+---
+
+### ❌ LoadBalancer DNS Not Resolving
+
+- Cause: DNS propagation delay
+- Fix: Wait 2–5 minutes
+
+---
+
+### ❌ VPC Deletion Failure
+
+- Cause: Dependent resources
+- Fix: Delete ENIs, subnets, and gateways manually
+
+---
+
+## 💡 Key Learnings
+
+- EKS uses CloudFormation under the hood
+- IAM roles are critical for service communication
+- Docker image architecture must match runtime environment
+- Kubernetes networking and LoadBalancer provisioning are asynchronous
+- Debugging infrastructure is a key DevOps skill
 
 ---
 
 ## 🔮 Future Enhancements
 
-* Add CI/CD pipeline using GitHub Actions
-* Implement auto-scaling (HPA)
-* Add logging with ELK stack
-* Improve security with DevSecOps practices
+- CI/CD pipeline using GitHub Actions
+- Horizontal Pod Autoscaling (HPA)
+- Logging with ELK stack
+- Kubernetes Secrets for secure credentials
+- Ingress + custom domain + HTTPS
 
 ---
 
-## 📌 Key Learnings
-
-* Kubernetes deployments and service networking
-* Container orchestration and scaling concepts
-* Monitoring and observability setup
-* Real-world DevOps workflow and architecture
-
----
-## Results
+## 📊 Results
 
 - Successfully deployed multi-container application on Kubernetes
-- Verified service communication between application and database
-- Monitored system metrics using Prometheus and Grafana
-- Achieved reliable and reproducible deployments
-  
+- Verified communication between Flask and PostgreSQL
+- Achieved public access via AWS LoadBalancer
+- Implemented monitoring and observability
+- Solved real-world infrastructure issues
+
+---
+
 ## 👩‍💻 Author
 
-**Chaitrali Awasare**  
+**Chaitrali Awasare**
 DevOps Engineer
+
+---
